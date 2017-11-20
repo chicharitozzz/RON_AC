@@ -1,4 +1,3 @@
-#蚁群算法求解带容量约束的，出发点相同的车辆路径问题
 #TODO：结果可视化；车辆数大于7时得到局部最优解：maybe局部更新规则调整
 import math
 import random
@@ -8,12 +7,6 @@ import copy
 
 #使用经纬度计算两点之间的距离
 def haversine(lat0, lon0, lat1, lon1):
-  # calculate the distance between two points on earth
-  # lat0: latitude of the first point，纬度
-  # lon0: longitude of the first point，经度
-  # lat1: latitude of the second point.
-  # lon1: longitude of the second point.
-  # returns distance between the two points in km.
   R = 6371 # radius earth
   dLat = lat1-lat0
   dLon = lon1-lon0
@@ -25,7 +18,7 @@ def haversine(lat0, lon0, lat1, lon1):
 def GetTotalLength(graph,tour):
   length = 0
   for i in range(len(tour)-1):
-    length += graph[tour[i]][tour[i+1]] # add up nodes
+    length += graph[tour[i]][tour[i+1]] 
   return length
 
 #返回总长度最短的路径
@@ -38,7 +31,7 @@ def checkForBestTour(graph, nodes, tours, oldBestTour):
     if (length < best):
       best = length
       bestT = t
-  if not oldBestTour: # bestTour is empty
+  if not oldBestTour:
     return bestT
   elif (best <= GetTotalLength(graph, oldBestTour)):
     return bestT
@@ -89,7 +82,7 @@ def stateTransitionRule(graph, pheromone, currentNode,reachable, depots):
 #为每个蚂蚁选择下一节点
 def chooseNext(graph, pheromone, remaining, tours, depots, maxCapacity, cap, Q):
   ant = 0 # current ant
-  for a in tours: # for every ant tour,a=tours[ant]
+  for a in tours:
     reachable = []
     for i in remaining[ant]:
       if (cap[ant] >= Q[i] and Q[i] != 0):#剩余量够i节点消费
@@ -137,7 +130,7 @@ def positionAnts(ants, tours, numNodes, remaining, cap, Q, depots):
     pos.remove(p)
     cap[ant] -= Q[p] # if ant starts on customer node, substract quantity the customer asks for
 
-#增加v个节点节点到graph中
+#增加v个节点到graph中
 def addDepots(v, graph):
   l = []
   for g in graph: # create copy of graph
